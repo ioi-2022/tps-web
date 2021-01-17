@@ -31,9 +31,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd#kb9j&&o5t!p(^cj!2c6#e!g5_)9yj-m%%d!djxmasi5eu1ir'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
-ALLOWED_HOSTS = []
+# Automatically determine environment by detecting if DATABASE_URL variable.
+# DATABASE_URL is provided by Heroku if a database add-on is added
+# (e.g. Heroku Postgres).
+PRODUCTION = os.getenv('DATABASE_URL') is not None
+
+# SECURITY WARNING: don't run with debug turned on in production!
+# If you want to enable debugging on Heroku for learning purposes,
+# set this to True.
+DEBUG = not PRODUCTION
+
+ALLOWED_HOSTS = ['*']
+
+if not PRODUCTION:
+    ALLOWED_HOSTS += ['.localhost', '127.0.0.1', '[::1]']
+
 
 SITE_ID = 1
 
